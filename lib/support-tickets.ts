@@ -4,7 +4,7 @@ import path from 'node:path';
 import type { SupportTicket, SupportTicketStatus } from './support-ticket-types';
 export type { SupportTicket, SupportTicketMessage, SupportTicketStatus } from './support-ticket-types';
 
-const dataDir = path.join(process.cwd(), 'data');
+const dataDir = process.env.VERCEL ? path.join('/tmp', 'pulserpwebsite-data') : path.join(process.cwd(), 'data');
 const ticketsFile = path.join(dataDir, 'support-tickets.json');
 
 function ensureDir() {

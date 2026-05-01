@@ -34,7 +34,7 @@ export function SupportTicketForm() {
       router.refresh();
     } else {
       const data = await response.json().catch(() => ({}));
-      setError(data.error === 'missing_fields' ? 'Please add a title and message before submitting.' : 'Ticket could not be created. Please try again or contact an admin.');
+      setError(data.error === 'missing_fields' ? 'Please add a title and message before submitting.' : data.error === 'ticket_storage_failed' ? 'Ticket storage failed on the server. Please contact an admin.' : 'Ticket could not be created. Please try again or contact an admin.');
     }
   }
 

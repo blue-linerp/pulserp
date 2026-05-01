@@ -12,13 +12,17 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
   const messageText = typeof body.body === 'string' ? body.body.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() : '';
   if (!body.title?.trim() || !messageText) return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
-  const ticket = createSupportTicket({
-    steamId: user.steamId,
-    username: user.username,
-    title: body.title.trim(),
-    server: body.server || 'FiveM Public',
-    category: body.category || 'General',
-    body: body.body
-  });
-  return NextResponse.json({ ticket });
+  try {
+    const ticket = createSupportTicket({
+      steamId: user.steamId,
+      username: user.username,
+      title: body.title.trim(),
+      server: body.server || 'FiveM Public',
+      category: body.category || 'General',
+      body: body.body
+    });
+    return NextResponse.json({ ticket });
+  } catch (error) {
+    return NextResponse.json({ error: 'ticket_storage_failed' }, { status: 500 });
+  }
 }
