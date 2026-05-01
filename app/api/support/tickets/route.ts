@@ -10,7 +10,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const user = await requireUser();
   const body = await request.json().catch(() => ({}));
-  if (!body.title?.trim() || !body.body?.trim()) return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
+  const messageText = typeof body.body === 'string' ? body.body.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() : '';
+  if (!body.title?.trim() || !messageText) return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
   const ticket = createSupportTicket({
     steamId: user.steamId,
     username: user.username,

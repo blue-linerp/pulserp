@@ -1,6 +1,8 @@
 'use client';
 
 import { EditorContent, useEditor } from '@tiptap/react';
+import type { Editor } from '@tiptap/react';
+import { useEffect } from 'react';
 import { AlignCenter, AlignLeft, AlignRight, Bold, ImageIcon, Italic, Minus, Strikethrough, Underline as UnderlineIcon } from 'lucide-react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -8,8 +10,11 @@ import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
 import TextAlign from '@tiptap/extension-text-align';
 
-export function RichTextField({ placeholder = 'Write your response...', onChange }: { placeholder?: string; onChange?: (html: string) => void }) {
+export function RichTextField({ placeholder = 'Write your response...', onChange, onEditorReady }: { placeholder?: string; onChange?: (html: string) => void; onEditorReady?: (editor: Editor | null) => void }) {
   const editor = useEditor({ extensions: [StarterKit, Underline, Image, TextAlign.configure({ types: ['heading', 'paragraph'] }), Placeholder.configure({ placeholder })], content: '', immediatelyRender: false, onUpdate: ({ editor }) => onChange?.(editor.getHTML()) });
+  useEffect(() => {
+    onEditorReady?.(editor);
+  }, [editor, onEditorReady]);
   function uploadImage(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file || !editor) return;
