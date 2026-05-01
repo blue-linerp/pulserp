@@ -1,0 +1,7 @@
+import { SubscriptionCards } from '@/components/SubscriptionCards';
+import { getSettings } from '@/lib/settings';
+
+export default function SubscriptionsPage() {
+  const settings = getSettings();
+  return <main className="px-5 py-20"><div className="mx-auto max-w-7xl"><h1 className="pulse-heading text-7xl text-[var(--red-primary)]">Subscriptions</h1><p className="mt-4 max-w-2xl text-[var(--text-secondary)]">Pick a tier and subscribe via Ko-fi. Memberships fund the city and unlock priority perks. Manage perks in the admin panel.</p><div className="mt-10"><SubscriptionCards subscriptions={settings.subscriptions} /></div><div className="pulse-panel mt-10 overflow-x-auto rounded-xl p-6"><h2 className="pulse-heading text-4xl">Feature Comparison</h2><table className="mt-5 w-full min-w-[640px] text-left text-sm"><thead className="font-mono uppercase text-[var(--text-muted)]"><tr><th className="py-3">Feature</th><th>Silver</th><th>Gold</th><th>Crimson</th></tr></thead><tbody className="text-[var(--text-secondary)]"><tr className="border-t border-[var(--border)]"><td className="py-3">Queue Priority</td><td>+25</td><td>+40</td><td>+60</td></tr><tr className="border-t border-[var(--border)]"><td className="py-3">Priority Review</td><td>-</td><td>1</td><td>1</td></tr><tr className="border-t border-[var(--border)]"><td className="py-3">Discord Role Sync</td><td>Yes</td><td>Yes</td><td>Yes</td></tr></tbody></table></div></div></main>;
+}

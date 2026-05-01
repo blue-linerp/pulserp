@@ -1,0 +1,39 @@
+[
+  {
+    "id": "ticket_1777604961608",
+    "steamId": "76561199545844491",
+    "username": "TVCTICALHD",
+    "title": "Test",
+    "server": "FiveM Public",
+    "category": "RP Support",
+    "status": "open",
+    "createdAt": 1777604961608,
+    "updatedAt": 1777608208732,
+    "messages": [
+      {
+        "id": "message_1777604961608",
+        "authorSteamId": "76561199545844491",
+        "authorName": "TVCTICALHD",
+        "authorRole": "user",
+        "body": "<p>Testestsestre</p>",
+        "createdAt": 1777604961608
+      },
+      {
+        "id": "message_1777604985359",
+        "authorSteamId": "76561199545844491",
+        "authorName": "TVCTICALHD",
+        "authorRole": "admin",
+        "body": "Hello",
+        "createdAt": 1777604985359
+      },
+      {
+        "id": "message_1777608208732",
+        "authorSteamId": "76561199545844491",
+        "authorName": "TVCTICALHD",
+        "authorRole": "user",
+        "body": "Hello Sir",
+        "createdAt": 1777608208732
+      }
+    ]
+  }
+]
