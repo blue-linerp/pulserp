@@ -1,77 +1,52 @@
 /**
  * app/api/profile/characters/route.ts
  *
- * Next.js App Router API route.
- * Runs server-side – the API secret never reaches the browser.
+ * Fetches the current user's characters from the FiveM server.
+ * Uses requireUser() — the same auth as your profile page —
+ * so only the logged-in user can ever see their own characters.
  *
- * GET /api/profile/characters
- *
- * Required .env.local additions:
+ * Add to .env.local:
  *   FIVEM_API_URL=http://YOUR_SERVER_IP:30120
- *   FIVEM_CHARACTERS_SECRET=your-long-random-secret   ← must match server.cfg
+ *   FIVEM_CHARACTERS_SECRET=your-long-random-secret
  */
 
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/auth'; // adjust path if your authOptions live elsewhere
+import { requireUser } from '@/lib/auth';
 
-// ── Config ────────────────────────────────────────────────────────────────────
 const FIVEM_API_URL = process.env.FIVEM_API_URL ?? '';
 const SECRET        = process.env.FIVEM_CHARACTERS_SECRET ?? '';
 
-// ── Convert Steam64 ID → Steam hex (e.g. "steam:110000103f4a2b1") ─────────────
-function toSteamHex(steam64: string): string {
-  return `steam:${BigInt(steam64).toString(16)}`;
-}
-
-// ── Handler ───────────────────────────────────────────────────────────────────
 export async function GET() {
-  // 1. Must be authenticated via NextAuth (Steam)
-  const session = await getServerSession(authOptions);
-  if (!session?.user) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-  }
+  // requireUser() redirects if not logged in, so we're guaranteed an authed user here
+  const user = await requireUser();
 
-  // 2. NextAuth Steam provider stores the Steam64 ID in session.user.id
-  //    (or sometimes session.user.name — check your authOptions callbacks)
-  const steam64 = (session.user as { id?: string }).id ?? '';
-  if (!steam64) {
-    return NextResponse.json({ error: 'Steam ID not found in session' }, { status: 400 });
-  }
+  // steamIdentifier is already the "steam:hex" format Mythic uses (e.g. "steam:110000103f4a2b1")
+  const steamHex = user.steamIdentifier;
 
-  const steamHex = toSteamHex(steam64);
-
-  // 3. Validate env
   if (!FIVEM_API_URL || !SECRET) {
-    console.error('[pulse-characters] FIVEM_API_URL or FIVEM_CHARACTERS_SECRET is not set.');
+    console.error('[pulse-characters] Missing FIVEM_API_URL or FIVEM_CHARACTERS_SECRET in .env.local');
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
   }
 
-  // 4. Call FiveM HTTP endpoint
   const url = new URL('/pulse-characters/characters', FIVEM_API_URL);
   url.searchParams.set('steam', steamHex);
   url.searchParams.set('token', SECRET);
 
   try {
-    const fivemRes = await fetch(url.toString(), {
-      method : 'GET',
+    const res = await fetch(url.toString(), {
       headers: { Accept: 'application/json' },
-      // Next.js 14+ fetch is cached by default; opt out so we always get live data
-      cache  : 'no-store',
+      cache: 'no-store', // always live data
     });
 
-    const data = await fivemRes.json();
+    const data = await res.json();
 
-    if (!fivemRes.ok) {
-      return NextResponse.json(
-        { error: data?.error ?? 'FiveM API error' },
-        { status: fivemRes.status }
-      );
+    if (!res.ok) {
+      return NextResponse.json({ error: data?.error ?? 'FiveM API error' }, { status: res.status });
     }
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error('[pulse-characters] fetch error:', err);
+    console.error('[pulse-characters] Could not reach FiveM server:', err);
     return NextResponse.json({ error: 'Could not reach game server' }, { status: 503 });
   }
 }
