@@ -11,20 +11,22 @@
  */
 
 import { NextResponse } from 'next/server';
-import { requireUser } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
 
 const FIVEM_API_URL = process.env.FIVEM_API_URL ?? '';
 const SECRET        = process.env.FIVEM_CHARACTERS_SECRET ?? '';
 
 export async function GET() {
-  // requireUser() redirects if not logged in, so we're guaranteed an authed user here
-  const user = await requireUser();
+  const user = await getCurrentUser();
 
-  // steamIdentifier is already the "steam:hex" format Mythic uses (e.g. "steam:110000103f4a2b1")
+  if (!user) {
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
+
   const steamHex = user.steamIdentifier;
 
   if (!FIVEM_API_URL || !SECRET) {
-    console.error('[pulse-characters] Missing FIVEM_API_URL or FIVEM_CHARACTERS_SECRET in .env.local');
+    console.error('[pulse-characters] Missing FIVEM_API_URL or FIVEM_CHARACTERS_SECRET');
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
   }
 
@@ -35,7 +37,7 @@ export async function GET() {
   try {
     const res = await fetch(url.toString(), {
       headers: { Accept: 'application/json' },
-      cache: 'no-store', // always live data
+      cache: 'no-store',
     });
 
     const data = await res.json();
