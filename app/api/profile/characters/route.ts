@@ -23,10 +23,9 @@ export async function GET() {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
-  const steamHex = user.steamIdentifier;
+  const steamHex = `steam:${BigInt(user.steamId).toString(16)}`;
 
   if (!FIVEM_API_URL || !SECRET) {
-    console.error('[pulse-characters] Missing FIVEM_API_URL or FIVEM_CHARACTERS_SECRET');
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
   }
 
