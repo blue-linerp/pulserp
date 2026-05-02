@@ -1,0 +1,250 @@
+/* 
+ * profile-characters.css
+ *
+ * Add this to your globals.css (just copy-paste the block below),
+ * OR import it in your layout/page:
+ *   import '@/styles/profile-characters.css';
+ *
+ * All colours use CSS variables — override them in :root or a parent
+ * selector to match your Pulse RP brand exactly.
+ */
+
+:root {
+  --pc-bg-card:        #161b22;
+  --pc-bg-header:      #0d1117;
+  --pc-border:         #30363d;
+  --pc-accent:         #e63946;          /* Pulse RP red */
+  --pc-accent-dim:     rgba(230, 57, 70, 0.15);
+  --pc-text-primary:   #e6edf3;
+  --pc-text-secondary: #8b949e;
+  --pc-text-muted:     #484f58;
+  --pc-alive:          #3fb950;
+  --pc-dead:           #e63946;
+  --pc-jail:           #d29922;
+  --pc-radius:         12px;
+  --pc-shadow:         0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Root wrapper ────────────────────────────────────────────────────── */
+#pulse-characters-root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--pc-text-primary);
+}
+
+/* ── Section header ──────────────────────────────────────────────────── */
+.pc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.pc-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--pc-text-primary);
+}
+
+.pc-count {
+  font-size: 0.85rem;
+  color: var(--pc-text-secondary);
+  background: var(--pc-bg-header);
+  border: 1px solid var(--pc-border);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ── Grid ────────────────────────────────────────────────────────────── */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* ── Card ────────────────────────────────────────────────────────────── */
+.pc-card {
+  background: var(--pc-bg-card);
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius);
+  box-shadow: var(--pc-shadow);
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pc-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--pc-accent);
+}
+
+/* ── Card header ─────────────────────────────────────────────────────── */
+.pc-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 20px 16px;
+  background: var(--pc-bg-header);
+  border-bottom: 1px solid var(--pc-border);
+}
+
+.pc-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--pc-accent-dim);
+  border: 2px solid var(--pc-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--pc-accent);
+  text-transform: uppercase;
+}
+
+.pc-card__title h3 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--pc-text-primary);
+}
+
+.pc-job {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  color: var(--pc-text-secondary);
+}
+
+/* ── Badges ──────────────────────────────────────────────────────────── */
+.pc-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.pc-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.pc-badge--alive {
+  background: rgba(63, 185, 80, 0.15);
+  color: var(--pc-alive);
+  border: 1px solid rgba(63, 185, 80, 0.35);
+}
+
+.pc-badge--dead {
+  background: rgba(230, 57, 70, 0.15);
+  color: var(--pc-dead);
+  border: 1px solid rgba(230, 57, 70, 0.35);
+}
+
+.pc-badge--jail {
+  background: rgba(210, 153, 34, 0.15);
+  color: var(--pc-jail);
+  border: 1px solid rgba(210, 153, 34, 0.35);
+}
+
+/* ── Card body ───────────────────────────────────────────────────────── */
+.pc-card__body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Info grid ───────────────────────────────────────────────────────── */
+.pc-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+}
+
+.pc-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pc-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pc-text-muted);
+  font-weight: 600;
+}
+
+.pc-value {
+  font-size: 0.9rem;
+  color: var(--pc-text-primary);
+}
+
+/* ── Bio ─────────────────────────────────────────────────────────────── */
+.pc-bio {
+  padding: 10px 14px;
+  border-left: 3px solid var(--pc-accent);
+  background: var(--pc-accent-dim);
+  border-radius: 0 6px 6px 0;
+}
+
+.pc-bio p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--pc-text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Licenses ────────────────────────────────────────────────────────── */
+.pc-licenses ul {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pc-licenses li {
+  font-size: 0.75rem;
+  background: rgba(139, 148, 158, 0.1);
+  border: 1px solid var(--pc-border);
+  color: var(--pc-text-secondary);
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+
+/* ── State screens ───────────────────────────────────────────────────── */
+.pc-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 60px 20px;
+  color: var(--pc-text-secondary);
+  text-align: center;
+}
+
+.pc-state p { margin: 0; font-size: 0.95rem; }
+.pc-state--error { color: var(--pc-dead); }
+
+/* ── Spinner ─────────────────────────────────────────────────────────── */
+.pc-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--pc-border);
+  border-top-color: var(--pc-accent);
+  border-radius: 50%;
+  animation: pc-spin 0.8s linear infinite;
+}
+
+@keyframes pc-spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .pc-grid        { grid-template-columns: 1fr; }
+  .pc-info-grid   { grid-template-columns: 1fr; }
+}
