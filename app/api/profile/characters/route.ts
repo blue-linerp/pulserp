@@ -10,10 +10,29 @@ export async function GET() {
 
   const steamHex = `steam:${BigInt(user.steamId).toString(16)}`;
 
-  return NextResponse.json({
-    steamHex,
-    hasFivemUrl: !!FIVEM_API_URL,
-    hasSecret: !!SECRET,
-    fivemUrl: FIVEM_API_URL,
-  });
+  if (!FIVEM_API_URL || !SECRET) {
+    return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
+  }
+
+  const url = new URL('/characters', FIVEM_API_URL);
+  url.searchParams.set('steam', steamHex);
+  url.searchParams.set('token', SECRET);
+
+  try {
+    const res = await fetch(url.toString(), {
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return NextResponse.json({ error: data?.error ?? 'FiveM API error' }, { status: res.status });
+    }
+
+    return NextResponse.json(data);
+  } catch (err) {
+    console.error('[pulse-characters] Could not reach FiveM server:', err);
+    return NextResponse.json({ error: 'Could not reach game server' }, { status: 503 });
+  }
 }
