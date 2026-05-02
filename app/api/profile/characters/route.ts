@@ -14,7 +14,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
   }
 
-  const url = new URL('/characters', FIVEM_API_URL);
+  const url = new URL('/pulse-characters/characters', FIVEM_API_URL);
   url.searchParams.set('steam', steamHex);
   url.searchParams.set('token', SECRET);
 
