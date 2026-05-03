@@ -57,7 +57,7 @@ const links = [
 
 export default function LinksPage() {
   return (
-    <main className="min-h-screen bg-pulse-bg flex flex-col items-center justify-center px-4 py-16">
+    <main className="min-h-screen bg-pulse-bg flex flex-col items-center justify-center px-4 py-16 -mt-24">
       {/* Logo */}
       <div className="flex flex-col items-center mb-10">
         <Image
@@ -114,6 +114,8 @@ export default function LinksPage() {
           </Link>
         ))}
       </div>
+
+
     </main>
   );
 }
