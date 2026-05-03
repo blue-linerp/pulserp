@@ -114,11 +114,6 @@ export default function LinksPage() {
           </Link>
         ))}
       </div>
-
-      {/* Footer */}
-      <p className="font-body text-xs tracking-widest uppercase text-white/20 mt-12">
-        pulse-rp.com
-      </p>
     </main>
   );
 }
