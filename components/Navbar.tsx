@@ -61,7 +61,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
         <div className="hidden items-center gap-9 lg:flex">{nav}</div>
         <div className="hidden items-center gap-2 lg:flex">
           <Link href="/queue" className="flex h-10 w-[124.53px] items-center justify-center rounded-md bg-[#2c2c2c] font-['Outfit',sans-serif] text-[14px] font-semibold text-white shadow-inner shadow-black/40 transition hover:bg-[var(--red-primary)]">Join Queue</Link>
-          <Link href="https://store.pulse-rp.com/" className="flex h-10 w-[124.53px] items-center justify-center rounded-md bg-[#2c2c2c] font-['Outfit',sans-serif] text-[14px] font-semibold text-white shadow-inner shadow-black/40 transition hover:bg-[var(--red-primary)]">Official Store</Link>
+          <Link href="https://store.pulse-rp.com/" className="flex h-10 w-[124.53px] items-center justify-center rounded-md bg-[#ff0000] font-['Outfit',sans-serif] text-[14px] font-semibold text-white shadow-inner shadow-black/40 transition hover:bg-[var(--red-primary)]">Official Store</Link>
           {user ? (
             <div className="relative" ref={accountRef}>
               <button onClick={() => setAccountOpen((value) => !value)} aria-label="Account menu" className="grid h-10 w-10 place-items-center overflow-hidden rounded-full border border-[var(--red-primary)] bg-[var(--bg-tertiary)] transition hover:shadow-[0_0_12px_rgba(255,26,26,0.45)]">
